@@ -45,7 +45,8 @@ class Friends(Iterator):
 
         else:
             # handle edge case when input is an empty directory
-            self.person = []
+            self.persons = []
+            self.friends = []
 
     def __iter__(self) -> Iterator:
 

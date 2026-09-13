@@ -162,11 +162,13 @@ def find_smallest_team(my_dir):
     # ------------ BEGIN YOUR CODE
     for person in my_dir:
         team_roster = make_team_roster(person, my_dir)
-        team_size = len(team_roster.split('_'))  # count the number of members in the team
+        team_size = len(team_roster.split('_'))
         if not smallest_teams or team_size < len(smallest_teams[0].split('_')):
             smallest_teams = [team_roster]
         elif team_size == len(smallest_teams[0].split('_')):
             smallest_teams.append(team_roster)
+
+    smallest_teams.sort() 
 
     pass    # implement your code here
 
