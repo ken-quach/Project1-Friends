@@ -41,7 +41,12 @@ def load_pairs(filename):
     with open(filename, 'rt') as infile:
 
 # ------------ BEGIN YOUR CODE ------------
-
+        for line in infile:
+            line = line.strip()
+            if line:
+                parts = line.split()
+                if len(parts) == 2:
+                    list_of_pairs.append((parts[0], parts[1]))
         
         pass    # implement your code here
 
@@ -69,7 +74,14 @@ def make_friends_directory(pairs):
     directory = dict()
 
     # ------------ BEGIN YOUR CODE ------------
-
+    for x, y in pairs:
+        if x != y:
+            if x not in directory:
+                directory[x] = set()
+            if y not in directory:
+                directory[y] = set()
+            directory[x].add(y)
+            directory[y].add(x)
     
     pass    # implement your code here
 
@@ -89,7 +101,10 @@ def find_all_number_of_friends(my_dir):
     friends_list = []
 
     # ------------ BEGIN YOUR CODE ------------
+    for name, friends in my_dir.items():
+        friends_list.append((name, len(friends)))
 
+    friends_list.sort(key=lambda pair: pair[1], reverse=True)
 
     pass    # implement your code here
     
@@ -121,7 +136,14 @@ def make_team_roster(person, my_dir):
     label = person
 
     # ------------ BEGIN YOUR CODE ------------
+    team = set()
 
+    for friend in my_dir[person]:
+        team.add(friend)
+        for friend_of_friend in my_dir[friend]:
+            team.add(friend_of_friend)
+    team.discard(person)  # remove the first instance of team leader from the team
+    label += '_' + '_'.join(sorted(team))
     
     pass    # implement your code here
 
@@ -138,7 +160,13 @@ def find_smallest_team(my_dir):
     smallest_teams = []
 
     # ------------ BEGIN YOUR CODE
-
+    for person in my_dir:
+        team_roster = make_team_roster(person, my_dir)
+        team_size = len(team_roster.split('_'))  # count the number of members in the team
+        if not smallest_teams or team_size < len(smallest_teams[0].split('_')):
+            smallest_teams = [team_roster]
+        elif team_size == len(smallest_teams[0].split('_')):
+            smallest_teams.append(team_roster)
 
     pass    # implement your code here
 
